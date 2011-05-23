@@ -1,7 +1,12 @@
 TestTask::Application.routes.draw do
+
   resources :postcodes
 
-  resources :people
+  resources :people# do
+    #collection do
+    #  get 'search'
+   # end
+ # end
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

@@ -1,44 +1,26 @@
 class PeopleController < ApplicationController
-  # GET /people
-  # GET /people.xml
-  def index
-    @people = Person.all
 
-    respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @people }
-    end
+  respond_to :xml,:html
+
+  def index
+    @people = Person.search(params[:email], params[:condition], params[:postcodes])
+    respond_with(@people)
   end
 
-  # GET /people/1
-  # GET /people/1.xml
   def show
     @person = Person.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.xml  { render :xml => @person }
-    end
+    respond_with(@people)
   end
 
-  # GET /people/new
-  # GET /people/new.xml
   def new
     @person = Person.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.xml  { render :xml => @person }
-    end
+    respond_with(@people)
   end
 
-  # GET /people/1/edit
   def edit
     @person = Person.find(params[:id])
   end
 
-  # POST /people
-  # POST /people.xml
   def create
     @person = Person.new(params[:person])
 
@@ -53,8 +35,6 @@ class PeopleController < ApplicationController
     end
   end
 
-  # PUT /people/1
-  # PUT /people/1.xml
   def update
     @person = Person.find(params[:id])
 
@@ -69,8 +49,6 @@ class PeopleController < ApplicationController
     end
   end
 
-  # DELETE /people/1
-  # DELETE /people/1.xml
   def destroy
     @person = Person.find(params[:id])
     @person.destroy
@@ -80,4 +58,13 @@ class PeopleController < ApplicationController
       format.xml  { head :ok }
     end
   end
+
+  def search
+    #@people = Person.where(:email => params[:email])
+    #@people = Person.all
+    @people = Person.where(:email => "ck@hotmail.com")
+    logger.debug "params iss #{params[:email]} + #{params[:term]}"
+    render :action => 'index'
+  end
+
 end
