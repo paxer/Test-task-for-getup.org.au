@@ -1,0 +1,11 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  name: Darth Vader
+  postcode_id: 1
+  email: darth@deathstar.com
+
+two:
+  name: Chuck Norris
+  postcode_id: 2
+  email: chuck@watchingyou.com

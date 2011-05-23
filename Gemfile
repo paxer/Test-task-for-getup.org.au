@@ -7,6 +7,12 @@ gem 'rails', '3.0.7'
 
 gem 'sqlite3'
 
+group :development, :test do
+  gem 'ruby-debug19', :require => 'ruby-debug'
+  gem 'test-unit'
+  gem 'cover_me', '>= 1.0.0.rc6'
+end
+
 # Use unicorn as the web server
 # gem 'unicorn'
 

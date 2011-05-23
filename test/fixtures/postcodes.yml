@@ -1,0 +1,9 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  number: 1
+  suburb: Galaxy far far away
+
+two:
+  number: 2
+  suburb: Near you
