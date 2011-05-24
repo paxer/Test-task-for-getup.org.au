@@ -1,3 +1,8 @@
+SOLUTION
+
+<a href="http://test-task-for-getup.heroku.com/">http://test-task-for-getup.heroku.com/</a>
+
+
 THE PROBLEM:
 Write a Rails app providing a simple form which allows users to enter
 rules based on where people live and which email provider they use, 
