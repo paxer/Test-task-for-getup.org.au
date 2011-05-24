@@ -56,4 +56,9 @@ class PersonTest < ActiveSupport::TestCase
     assert_equal @darth.email, "luke@deathstar.com"
   end
 
+  test "search should return correct values" do
+
+  end
+
+
 end

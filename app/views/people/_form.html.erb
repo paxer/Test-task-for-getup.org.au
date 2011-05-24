@@ -16,7 +16,7 @@
     <%= f.text_field :name %>
   </div>
   <div class="field">
-    <%= select("postcode", "postcode_id", Postcode.all.collect {|p| [ p.suburb, p.id ] }, {:include_blank => true}) %>
+    <%= select("person", "postcode_id", Postcode.all.collect {|p| [ p.suburb, p.id ] }, {:include_blank => true}) %>
   </div>
   <div class="field">
     <%= f.label :email %><br />

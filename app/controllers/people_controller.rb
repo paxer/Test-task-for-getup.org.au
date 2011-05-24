@@ -3,7 +3,7 @@ class PeopleController < ApplicationController
   respond_to :xml,:html
 
   def index
-    @people = Person.search(params[:email], params[:condition], params[:postcodes])
+    @people = Person.search(params[:email_condition], params[:email], params[:postcode_condition], params[:postcodes])
     respond_with(@people)
   end
 
@@ -57,14 +57,6 @@ class PeopleController < ApplicationController
       format.html { redirect_to(people_url) }
       format.xml  { head :ok }
     end
-  end
-
-  def search
-    #@people = Person.where(:email => params[:email])
-    #@people = Person.all
-    @people = Person.where(:email => "ck@hotmail.com")
-    logger.debug "params iss #{params[:email]} + #{params[:term]}"
-    render :action => 'index'
   end
 
 end

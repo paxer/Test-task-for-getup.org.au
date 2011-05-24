@@ -1,4 +1,7 @@
 <h1>Listing people</h1>
+<br/>
+<%= link_to "All records",people_path %>
+<br/><br/>
 <%= render "/shared/search" %>
 <table>
   <tr>
@@ -13,7 +16,7 @@
 <% @people.each do |person| %>
   <tr>
     <td><%= person.name %></td>
-    <td><%= person.postcode_id %></td>
+    <td><%= person.postcode.number %></td>
     <td><%= person.email %></td>
     <td><%= link_to 'Show', person %></td>
     <td><%= link_to 'Edit', edit_person_path(person) %></td>
