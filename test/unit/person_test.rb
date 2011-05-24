@@ -57,8 +57,28 @@ class PersonTest < ActiveSupport::TestCase
   end
 
   test "search should return correct values" do
+    email_condition = "like"
+    email = "darth@deathstar.com"
+    postcode_condition = "from"
+    postcodes = "2000"
+    p = Person.search(email_condition, email, postcode_condition, postcodes).first
+    assert_equal p.name, "Darth Vader"
 
+    email_condition = "not_like"
+    email = ""
+    postcode_condition = "from"
+    postcodes = "3000"
+    p2 = Person.search(email_condition, email, postcode_condition, postcodes).first
+    assert_equal "Chuck Norris", p2.name
   end
 
+  test "search without parameters should return all records" do
+    email_condition = "not_like"
+    email = ""
+    postcode_condition = "from"
+    postcodes = ""
+    p2 = Person.search(email_condition, email, postcode_condition, postcodes)
+    assert_equal p2.size, 2
+  end
 
 end
