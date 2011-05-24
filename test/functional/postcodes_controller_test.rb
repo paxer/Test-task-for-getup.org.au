@@ -24,6 +24,13 @@ class PostcodesControllerTest < ActionController::TestCase
     assert_redirected_to postcode_path(assigns(:postcode))
   end
 
+  test "should render new if postcode has not been created" do
+    @invalid_postcode = Postcode.new
+    @invalid_postcode.number = ""
+    post :create, :postcode => @invalid_postcode.attributes
+    assert_recognizes({:controller => 'postcodes', :action => 'new'}, 'postcodes/new')
+  end
+
   test "should show postcode" do
     get :show, :id => @postcode.to_param
     assert_response :success
@@ -37,6 +44,12 @@ class PostcodesControllerTest < ActionController::TestCase
   test "should update postcode" do
     put :update, :id => @postcode.to_param, :postcode => @postcode.attributes
     assert_redirected_to postcode_path(assigns(:postcode))
+  end
+
+  test "should redirect correctly if update was unsuccessful" do
+    @postcode.number = ""
+    put :update, :id => @postcode.to_param, :postcode => @postcode.attributes
+    assert_recognizes({:controller => 'postcodes', :action => 'edit', :id => "#{@postcode.id}"}, "postcodes/#{@postcode.id}/edit")
   end
 
   test "should destroy postcode" do

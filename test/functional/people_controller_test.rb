@@ -24,6 +24,13 @@ class PeopleControllerTest < ActionController::TestCase
     assert_redirected_to person_path(assigns(:person))
   end
 
+  test "should render new if person has not been created" do
+    @invalid_person = Person.new
+    @invalid_person.name = "Ironman"
+    post :create, :person => @invalid_person.attributes
+    assert_recognizes({:controller => 'people', :action => 'new'}, 'people/new')
+  end
+
   test "should show person" do
     get :show, :id => @person.to_param
     assert_response :success
@@ -37,6 +44,12 @@ class PeopleControllerTest < ActionController::TestCase
   test "should update person" do
     put :update, :id => @person.to_param, :person => @person.attributes
     assert_redirected_to person_path(assigns(:person))
+  end
+
+  test "should redirect correctly if update was unsuccessful" do
+    @person.name = ""
+    put :update, :id => @person.to_param, :person => @person.attributes
+    assert_recognizes({:controller => 'people', :action => 'edit', :id => "#{@person.id}"}, "people/#{@person.id}/edit")
   end
 
   test "should destroy person" do

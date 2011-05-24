@@ -1,31 +1,17 @@
 <fieldset style="width:860px">
   <legend>Search</legend>
-<%= form_tag people_path, :method => "get" do %>
+  <%= form_tag people_path, :method => "get" do %>
       <div class="field">
-     <%= label_tag :email, "People who have email" %>
-        <select id="email_condition" name="email_condition">
-          <option value="like">like</option>
-          <option value="not_like">not like</option>
-        </select>
-
-
-  <%= search_field_tag :email, params[:email] %>
+        <%= label_tag :email, "People who have email" %>
+        <%= select_tag(:email_condition, options_for_select([['like', 'like'], ['not like', 'not_like']], params[:email_condition].to_s)) %>
+        <%= search_field_tag :email, params[:email] %>
         and
-        <select id="postcode_condition" name="postcode_condition">
-          <option value="from">from</option>
-          <option value="not_from">not from</option>
-        </select>
-  <%= label_tag :postcodes, "Postcodes (coma separated)" %>
-  <%= search_field_tag :postcodes, params[:postcodes] %>
-  </div>
+        <%= select_tag(:postcode_condition, options_for_select([['from', 'from'], ['not from', 'not_from']], params[:postcode_condition].to_s)) %>
+        <%= label_tag :postcodes, "Postcodes (coma separated)" %>
+        <%= search_field_tag :postcodes, params[:postcodes] %>
+      </div>
 
-
-
-
-
-
-
-  <%= submit_tag "Search", :name => nil %>
-<% end %>
+      <%= submit_tag "Search", :name => nil %>
+  <% end %>
 </fieldset>
-<br />
+<br/>

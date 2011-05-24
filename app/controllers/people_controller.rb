@@ -1,6 +1,7 @@
 class PeopleController < ApplicationController
 
   respond_to :xml,:html
+  before_filter :get_person, :only => [:show, :edit, :destroy, :update]
 
   def index
     @people = Person.search(params[:email_condition], params[:email], params[:postcode_condition], params[:postcodes])
@@ -8,7 +9,6 @@ class PeopleController < ApplicationController
   end
 
   def show
-    @person = Person.find(params[:id])
     respond_with(@people)
   end
 
@@ -18,7 +18,6 @@ class PeopleController < ApplicationController
   end
 
   def edit
-    @person = Person.find(params[:id])
   end
 
   def create
@@ -36,7 +35,6 @@ class PeopleController < ApplicationController
   end
 
   def update
-    @person = Person.find(params[:id])
 
     respond_to do |format|
       if @person.update_attributes(params[:person])
@@ -50,13 +48,14 @@ class PeopleController < ApplicationController
   end
 
   def destroy
-    @person = Person.find(params[:id])
     @person.destroy
+    respond_with(@people, :location =>people_url)
+  end
 
-    respond_to do |format|
-      format.html { redirect_to(people_url) }
-      format.xml  { head :ok }
-    end
+  private
+
+  def get_person
+    @person = Person.find(params[:id])
   end
 
 end
