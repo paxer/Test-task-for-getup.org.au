@@ -15,17 +15,18 @@ class Person < ActiveRecord::Base
       postcode_query_condition = " IN (?)"
       postcode_query_condition = " NOT IN (?)" if postcode_condition == "not_from"
 
-      final_query = nil
+      email_query = where("email #{email_query_condition}", "%#{email}%")
+      postcode_query = joins(:postcode).where("postcodes.number #{postcode_query_condition}", postcode_numbers_array)
+      postcode_and_email_query = joins(:postcode).where("email #{email_query_condition}", "%#{email}%").where("postcodes.number #{postcode_query_condition}", postcode_numbers_array)
 
-      if email.present? && postcodes.blank?
-        final_query = where("email #{email_query_condition}", "%#{email}%")
-      elsif email.present? && postcodes.present?
-        final_query = joins(:postcode).where("email #{email_query_condition} AND postcodes.number #{postcode_query_condition}", "%#{email}%", postcode_numbers_array)
-      elsif email.blank? && postcodes.present?
-        final_query = joins(:postcode).where("postcodes.number #{postcode_query_condition}",  postcode_numbers_array)
+      if email.present? && postcodes.present?
+        postcode_and_email_query
+      elsif email.present? && postcodes.blank?
+        email_query
+      else
+        postcode_query
       end
 
-      final_query
     end
   end
 end
