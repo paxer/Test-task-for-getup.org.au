@@ -4,29 +4,19 @@ class Person < ActiveRecord::Base
   validates :email, :presence => true, :email => true
 
   def self.search(email_condition, email, postcode_condition, postcodes)
-    if email.blank? && postcodes.blank?
-      includes(:postcode).all
-    else
+    return includes(:postcode).all if email.blank? && postcodes.blank?
+
+    r = self
+    if postcodes.present?
       postcode_numbers_array = postcodes.split(",").collect { |p| p.to_i }
-
-      email_query_condition = " LIKE ?"
-      email_query_condition = " NOT LIKE ?" if email_condition == "not_like"
-
-      postcode_query_condition = " IN (?)"
-      postcode_query_condition = " NOT IN (?)" if postcode_condition == "not_from"
-
-      email_query = where("email #{email_query_condition}", "%#{email}%")
-      postcode_query = joins(:postcode).where("postcodes.number #{postcode_query_condition}", postcode_numbers_array)
-      postcode_and_email_query = joins(:postcode).where("email #{email_query_condition}", "%#{email}%").where("postcodes.number #{postcode_query_condition}", postcode_numbers_array)
-
-      if email.present? && postcodes.present?
-        postcode_and_email_query
-      elsif email.present? && postcodes.blank?
-        email_query
-      else
-        postcode_query
-      end
-
+      postcode_query_condition = (postcode_condition == "not_from" ? " NOT IN (?)" : " IN (?)")
+      r = r.joins(:postcode).where("postcodes.number #{postcode_query_condition}", postcode_numbers_array)
     end
+
+    if email.present?
+      email_query_condition = (email_condition == "not_like" ? " NOT LIKE ?" : " LIKE ?")
+      r = r.where("email #{email_query_condition}", "%#{email}%")
+    end
+    r
   end
 end
